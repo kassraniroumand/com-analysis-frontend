@@ -3,7 +3,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 
 interface IdeaStatCardProps {
     title: string;
-    value: number;
+    value: number | null;
 }
 
 const IdeaStatCard = ({title, value}: IdeaStatCardProps) => {

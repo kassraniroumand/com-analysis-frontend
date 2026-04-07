@@ -18,7 +18,7 @@ const IdeaListCard = (
         <Card>
             <CardHeader>
                 <div className={"flex flex-row justify-between"}>
-                    <Badge variant={ideaSummary.status === "completed" ? "success" : ideaSummary.status === "processing" ? "warning" : "default"}>
+                    <Badge variant={ideaSummary.status === "completed" ? "default" : ideaSummary.status === "processing" ? "secondary" : "outline"}>
                         {ideaSummary.status}
                     </Badge>
                     <Badge variant={"secondary"}>

@@ -1,22 +1,15 @@
 "use client"
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import React from 'react';
-import {setquery} from "@/lib/features/dataSlice"
-import {useAppDispatch, useAppSelector} from "../../../lib/store";
+import {useAppDispatch} from "../../../lib/store";
 import { Button } from "@/components/ui/button";
-import {useIdeaListQuery, useTriggerWorkflowMutation} from '@/lib/services/dataApi'
-import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
-import {IdeaStatus, SortOrder} from "../../../schema/req_res_types";
 import IdeaSubmitBox from "../../../components/idea-submit-box";
 import IdeaFilterBar from "../../../components/idea-filter-bar";
-import { openModal, selectFilter } from "@/lib/features/dataSlice";
+import { openModal } from "@/lib/features/dataSlice";
 import IdeaStat from "../../../components/idea-page/idea-stat";
 import IdeaList from "@/components/idea-page/idea-list";
 import {Plus} from "lucide-react";
 
 const IdeaListScreen = () => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
 
 
