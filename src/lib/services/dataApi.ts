@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import type {RootState} from "../store";
-
+import {IdeasListResponse, IdeasFilter, IdeasDashboardStats} from "../../schema/req_res_types";
 
 export interface WorkFlowTriggerIn {
     query: string
@@ -9,6 +9,8 @@ export interface WorkFlowTriggerIn {
 export interface WorkFlowTriggerOut {
     query: string
 }
+
+
 
 export const dataApi = createApi({
     reducerPath: "dataApi",
@@ -29,8 +31,19 @@ export const dataApi = createApi({
                 method: "POST",
                 body: data,
             }),
-        })
-    })
+        }),
+        ideaList: builder.query<IdeasListResponse, IdeasFilter>({
+            query: (params) => ({
+                url: "/api/v1/ideas/list",
+                params,
+            }),
+        }),
+        ideaStats: builder.query<IdeasDashboardStats, void>({
+            query: () => ({
+                url: "/api/v1/ideas/stat",
+            }),
+        }),
+    }),
 })
 
-export const { useTriggerWorkflowMutation } = dataApi
+export const { useTriggerWorkflowMutation, useIdeaListQuery , useIdeaStatsQuery} = dataApi

@@ -1,35 +1,80 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import {dataApi} from '../services/dataApi'
+import {IdeaRequest, IdeasFilter, IdeaStatus, SortOrder} from "../../schema/req_res_types";
+
 interface DataState {
-    query: string
-    results: any
+  form: IdeaRequest;
+  filter: IdeasFilter;
 }
 
 const initialState: DataState = {
-    query: "",
-    results: null
-}
+  form: {
+    idea: "",
+    targetAudience: "",
+    marketIndustry: "",
+    geography: "",
+    businessModel: "",
+    keywords: [""],
+    isModalOpen: false,
+  },
+  filter: {
+    search: null,
+    status: null,
+    sort: SortOrder.NEWEST_FIRST,
+  },
+};
+
+
 
 const dataSlice = createSlice({
     name: "data",
     initialState,
     reducers: {
-        setquery: (state, action: PayloadAction<string>) => {
-            state.query = action.payload
+        setField: (
+          state,
+          action: PayloadAction<{
+            field: keyof Omit<IdeaRequest, "isModalOpen">;
+            value: string;
+          }>
+        ) => {
+          (state.form as any)[action.payload.field] = action.payload.value;
         },
-        setResults: (state, action: PayloadAction<any>) => {
-            state.results = action.payload
-        }
+        resetForm: (state) => {
+          state.form = initialState.form;
+        },
+        openModal: (state) => {
+          state.form.isModalOpen = true;
+        },
+        closeModal: (state) => {
+          state.form = initialState.form;
+        },
+        setFilterSearch: (state, action: PayloadAction<string>) => {
+          state.filter.search = action.payload || null;
+        },
+        setFilterStatus: (state, action: PayloadAction<IdeaStatus | null>) => {
+          state.filter.status = action.payload;
+        },
+        setFilterSort: (state, action: PayloadAction<SortOrder>) => {
+          state.filter.sort = action.payload;
+        },
     },
-    extraReducers: (builder, ) => {
-        builder.addMatcher(
-            dataApi.endpoints.triggerWorkflow.matchFulfilled,
-            (state, {payload}) => {
-                state.results = payload
-            }
-        )
-    }
+    // extraReducers: (builder, ) => {
+    //     builder.addMatcher(
+    //         dataApi.endpoints.triggerWorkflow.matchFulfilled,
+    //         (state, {payload}) => {
+    //             state.results = payload
+    //         }
+    //     )
+    // }
 })
 
+export const selectCanSubmit = (state: { data: DataState }) =>
+  state.data.form.idea.trim().length > 0;
+
+export const selectFilter = (state: { data: DataState }) => state.data.filter;
+
 export default dataSlice.reducer
-export const { setquery, setResults } = dataSlice.actions
+export const {
+  setField, resetForm, openModal, closeModal,
+  setFilterSearch, setFilterStatus, setFilterSort,
+} = dataSlice.actions
