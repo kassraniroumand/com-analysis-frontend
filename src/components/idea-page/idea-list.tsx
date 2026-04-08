@@ -11,7 +11,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 const IdeaListSkeleton = () => (
     <div className={"flex flex-col gap-1"}>
         <Skeleton className="h-5 w-36" />
-        <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"}>
+        <div className={"grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2  gap-2"}>
             {Array.from({ length: 6 }).map((_, i) => (
                 <Card key={i}>
                     <CardHeader>
@@ -64,7 +64,7 @@ const IdeaList = () => {
             <p>
                 Showing {ideaListData.total} ideas
             </p>
-            <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"}>
+            <div className={"grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2"}>
                 {ideaListData.ideas?.map((idea) => (
                     <IdeaListCard key={idea.id} ideaSummary={idea} />
                 ))}
