@@ -1,7 +1,24 @@
 import { useIdeaStatsQuery } from "@/lib/services/dataApi";
 import React from 'react';
 import IdeaStatCard from "./idea-stat-card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
+
+const IdeaStatSkeleton = () => (
+    <div className={"grid grid-cols-2 sm:grid-cols-4 gap-1.5"}>
+        {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i}>
+                <CardHeader>
+                    <Skeleton className="h-4 w-24" />
+                </CardHeader>
+                <CardContent>
+                    <Skeleton className="h-6 w-16" />
+                </CardContent>
+            </Card>
+        ))}
+    </div>
+);
 
 const IdeaStat = () => {
     const {
@@ -10,7 +27,7 @@ const IdeaStat = () => {
     } = useIdeaStatsQuery()
 
     if (ideaStatIsLoading) {
-        return <div>Loading...</div>
+        return <IdeaStatSkeleton />
     }
 
     if (!ideaStat) {
