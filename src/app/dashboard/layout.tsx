@@ -6,6 +6,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { Separator } from "@/components/ui/separator";
 import { SiteHeader } from "@/components/site-header";
 import { AppSidebar } from "@/components/app-sidebar";
+import IdeaSheet from "@/components/idea-page/idea-sheet";
 
 const Layout = ({children}: {children: React.ReactNode}) => {
     const pathname = usePathname();
@@ -23,7 +24,8 @@ const Layout = ({children}: {children: React.ReactNode}) => {
               </div>
           </SidebarInset>
         </div>
-      </SidebarProvider>    §!
+      </SidebarProvider>
+      <IdeaSheet />
     </div>
     );
 };

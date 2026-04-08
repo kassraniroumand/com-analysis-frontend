@@ -4,15 +4,18 @@ import {useAppDispatch} from "../../../lib/store";
 import { Button } from "@/components/ui/button";
 import IdeaSubmitBox from "../../../components/idea-submit-box";
 import IdeaFilterBar from "../../../components/idea-filter-bar";
-import { openModal } from "@/lib/features/dataSlice";
+import {openModal, openSheet} from "@/lib/features/dataSlice";
 import IdeaStat from "../../../components/idea-page/idea-stat";
 import IdeaList from "@/components/idea-page/idea-list";
 import {Plus} from "lucide-react";
+import type {PanelType} from "@/components/idea-page/idea-sheet-panels";
 
 const IdeaListScreen = () => {
     const dispatch = useAppDispatch();
 
-
+    const handleOpen = (panel: PanelType) => {
+        dispatch(openSheet({ idea: null, panel }));
+    };
 
     return (
         <div className={"flex flex-col gap-4"}>
@@ -25,7 +28,7 @@ const IdeaListScreen = () => {
                 </div>
                 <Button
                     size={"lg"}
-                    onClick={() => dispatch(openModal())}>
+                    onClick={() => handleOpen("new_analysis")}>
                     <Plus className="mr-2 h-4 w-4" />
                     New Analysis
                 </Button>

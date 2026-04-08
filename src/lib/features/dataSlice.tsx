@@ -1,10 +1,17 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import {dataApi} from '../services/dataApi'
-import {IdeaRequest, IdeasFilter, IdeaStatus, SortOrder} from "../../schema/req_res_types";
+import {IdeaRequest, IdeasFilter, IdeaStatus, IdeaSummary, SortOrder} from "../../schema/req_res_types";
+import type { PanelType } from "@/components/idea-page/idea-sheet-panels";
+
+interface SheetState {
+  idea: IdeaSummary | null;
+  panel: PanelType | null;
+}
 
 interface DataState {
   form: IdeaRequest;
   filter: IdeasFilter;
+  sheet: SheetState;
 }
 
 const initialState: DataState = {
@@ -21,6 +28,10 @@ const initialState: DataState = {
     search: null,
     status: null,
     sort: SortOrder.NEWEST_FIRST,
+  },
+  sheet: {
+    idea: null,
+    panel: null,
   },
 };
 
@@ -57,6 +68,14 @@ const dataSlice = createSlice({
         setFilterSort: (state, action: PayloadAction<SortOrder>) => {
           state.filter.sort = action.payload;
         },
+        openSheet: (state, action: PayloadAction<{ idea: IdeaSummary | null; panel: PanelType }>) => {
+          state.sheet.idea = action.payload.idea;
+          state.sheet.panel = action.payload.panel;
+        },
+        closeSheet: (state) => {
+          state.sheet.idea = null;
+          state.sheet.panel = null;
+        },
     },
     // extraReducers: (builder, ) => {
     //     builder.addMatcher(
@@ -72,9 +91,11 @@ export const selectCanSubmit = (state: { data: DataState }) =>
   state.data.form.idea.trim().length > 0;
 
 export const selectFilter = (state: { data: DataState }) => state.data.filter;
+export const selectSheet = (state: { data: DataState }) => state.data.sheet;
 
 export default dataSlice.reducer
 export const {
   setField, resetForm, openModal, closeModal,
   setFilterSearch, setFilterStatus, setFilterSort,
+  openSheet, closeSheet,
 } = dataSlice.actions
